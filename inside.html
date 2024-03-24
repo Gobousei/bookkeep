@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支出入力</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+</head>
+<body>
+    <section class="hero is-dark">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+              家計簿
+            </h1>
+            <h2 class="subtitle is-6 has-text-danger">
+              今月の収支：-100
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="tabs is-boxed is-mobile is-centered">
+            <ul>
+              <li>
+                <a href="./outside.html">
+                  <span>支出</span>
+                </a>
+              </li>
+              <li class="is-active">
+                <a>
+                  <span>収入</span>
+                </a>
+              </li>
+              <li>
+                <a href="./payments.html">
+                  <span>収支</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        <div class="container control">
+            <div class="field">
+                <label class="label">収入の種類</label>
+                <div class="control">
+                    <div class="select is-info is-medium">
+                      <select name="types" id="type">
+                        <option value="0">その他</option>
+                        <option value="1">仕送</option>
+                        <option value="2">アルバイト</option>
+                        <option value="3">特別報酬</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="field">
+                <label class="label">詳細</label>
+                <div class="control">
+                  <input class="input is-info is-medium" type="text" placeholder="Text input">
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">金額</label>
+                <div class="control">
+                  <input class="input is-info is-medium" type="number">
+                </div>
+              </div>
+
+              <div class="field is-grouped">
+                <div class="control">
+                  <button class="button is-medium is-link">Submit</button>
+                </div>
+                <div class="control">
+                  <button class="button is-link is-light is-medium">Cancel</button>
+                </div>
+              </div>
+
+              </div>            
+      </section>
+   
+</body>
+</html>
