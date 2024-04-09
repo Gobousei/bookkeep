@@ -14,7 +14,7 @@
               家計簿
             </h1>
             <h2 class="subtitle is-6 has-text-danger">
-              今月の収支：-100
+              今月の収支：???
             </h2>
           </div>
         </div>
@@ -46,14 +46,14 @@
                 <div class="control">
                     <div class="select is-info is-medium">
                       <select name="types" id="type">
-                        <option value="0">その他</option>
-                        <option value="1">食費</option>
-                        <option value="2">日用品費</option>
-                        <option value="3">被服費</option>
-                        <option value="4">美容費</option>
-                        <option value="5">医療費</option>
-                        <option value="6">交際費</option>
-                        <option value="7">娯楽費</option>
+                        <option value="1">その他</option>
+                        <option value="2">食費</option>
+                        <option value="3">日用品費</option>
+                        <option value="4">被服費</option>
+                        <option value="5">美容費</option>
+                        <option value="6">医療費</option>
+                        <option value="7">交際費</option>
+                        <option value="8">娯楽費</option>
                       </select>
                     </div>
                   </div>
@@ -62,28 +62,94 @@
               <div class="field">
                 <label class="label">詳細</label>
                 <div class="control">
-                  <input class="input is-info is-medium" type="text" placeholder="Text input">
+                  <input class="input is-info is-medium" type="text" placeholder="Text input" id="detail">
                 </div>
               </div>
 
               <div class="field">
                 <label class="label">金額</label>
                 <div class="control">
-                  <input class="input is-info is-medium" type="number">
+                  <input class="input is-info is-medium" type="number" id="price">
                 </div>
               </div>
 
               <div class="field is-grouped">
                 <div class="control">
-                  <button class="button is-medium is-link">Submit</button>
+                  <button class="button is-medium is-link" onclick="show()">Submit</button>
                 </div>
                 <div class="control">
-                  <button class="button is-link is-light is-medium">Cancel</button>
+                  <button class="button is-link is-light is-medium" onclick="formclear()">Cancel</button>
                 </div>
               </div>
-
+              </div>
+              <div class="modal is-active" id="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                  <header class="modal-card-head">
+                    <p class="modal-card-title">確認</p>
+                    <button class="delete" aria-label="close" onclick="hide()"></button>
+                  </header>
+                  <section class="modal-card-body">
+                    <div class="content">
+                      <h2>支出</h2>
+                      <h3>支出の種類</h3>
+                      <p id="typeconfirm"></p>
+                      <h3>詳細</h3>
+                      <p id="detailconfirm"></p>
+                      <h3>金額</h3>
+                      <p id="priceconfirm"></p>
+                    </div>
+                  </section>
+                  <footer class="modal-card-foot">
+                    <button class="button is-success" onclick="formsubmit()">OK</button>
+                    <button class="button" onclick="hide()">キャンセル</button>
+                  </footer>
+                </div>
               </div>            
       </section>
-   
+      <script>
+        var type;
+        var detail;
+        var price;
+        var modal = document.getElementById('modal');
+        modal.style.display = 'none';
+
+        function show(){
+          type    = document.getElementById('type').value;
+          detail  = document.getElementById('detail').value;
+          price   = document.getElementById('price').value;
+          var typenumber = Number(type);
+          var typearray = ["error","その他","食費","日用品費","被服費","美容費","医療費","交際費","娯楽費"];
+          var typestring = typearray[typenumber];
+          document.getElementById('typeconfirm').innerText  = typestring;
+          document.getElementById('detailconfirm').innerText= detail;
+          document.getElementById('priceconfirm').innerText = price;
+          modal.style.display = 'block';
+        }
+
+        function hide(){
+          modal.style.display = 'none';
+        }
+
+        function formsubmit(){
+          type    = document.getElementById('type').value;
+          detail  = document.getElementById('detail').value;
+          price   = document.getElementById('price').value;
+          var param   = `?inout=2&type=${type}&detail='${detail}'&value=${price}`;
+          var url     = "https://script.google.com/macros/s/AKfycbxnyXizScM3kaCEaVSodUyfWuOtGhHZDatZnYs5gouj8co0wG8yoIEybbvdfhXyu0z4_g/exec";
+          var fullurl = url+param;
+          fetch(fullurl , {
+            method: "GET",
+          }).then(response => response.text())
+          .then(text => {
+            if(text=='success'){
+              window.location.reload();
+            }
+          })
+        }
+        function formclear(){
+          window.location.reload();
+        }
+      </script>
 </body>
 </html>
