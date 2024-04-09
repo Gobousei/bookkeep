@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>支出入力</title>
+    <link rel="manifest" href="manifest.json">
+    <title>CashFlow Keeper</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
 </head>
 <body>
@@ -13,8 +14,7 @@
             <h1 class="title">
               家計簿
             </h1>
-            <h2 class="subtitle is-6 has-text-danger">
-              今月の収支：-100
+            <h2 class="subtitle is-6" id="balance">
             </h2>
           </div>
         </div>
@@ -46,10 +46,10 @@
                 <div class="control">
                     <div class="select is-info is-medium">
                       <select name="types" id="type">
-                        <option value="0">その他</option>
-                        <option value="1">仕送</option>
-                        <option value="2">アルバイト</option>
-                        <option value="3">特別報酬</option>
+                        <option value="1">その他</option>
+                        <option value="2">仕送</option>
+                        <option value="3">アルバイト</option>
+                        <option value="4">特別報酬</option>
                       </select>
                     </div>
                   </div>
@@ -58,28 +58,122 @@
               <div class="field">
                 <label class="label">詳細</label>
                 <div class="control">
-                  <input class="input is-info is-medium" type="text" placeholder="Text input">
+                  <input class="input is-info is-medium" type="text" placeholder="Text input" id="detail">
                 </div>
               </div>
 
               <div class="field">
                 <label class="label">金額</label>
                 <div class="control">
-                  <input class="input is-info is-medium" type="number">
+                  <input class="input is-info is-medium" type="number" id="price">
                 </div>
               </div>
 
               <div class="field is-grouped">
                 <div class="control">
-                  <button class="button is-medium is-link">Submit</button>
+                  <button class="button is-medium is-link" onclick="show()">Submit</button>
                 </div>
                 <div class="control">
-                  <button class="button is-link is-light is-medium">Cancel</button>
+                  <button class="button is-link is-light is-medium" onclick="formclear()">Cancel</button>
                 </div>
               </div>
 
-              </div>            
+              </div>
+              <div class="modal is-active" id="modal">
+                <div class="modal-background"></div>
+                <div class="modal-card">
+                  <header class="modal-card-head">
+                    <p class="modal-card-title">確認</p>
+                    <button class="delete" aria-label="close" onclick="hide()"></button>
+                  </header>
+                  <section class="modal-card-body">
+                    <div class="content">
+                      <h2>収入</h2>
+                      <h3>収入の種類</h3>
+                      <p id="typeconfirm"></p>
+                      <h3>詳細</h3>
+                      <p id="detailconfirm"></p>
+                      <h3>金額</h3>
+                      <p id="priceconfirm"></p>
+                    </div>
+                  </section>
+                  <footer class="modal-card-foot">
+                    <button class="button is-success" onclick="formsubmit()">OK</button>
+                    <button class="button" onclick="hide()">キャンセル</button>
+                  </footer>
+                </div>
+              </div>   
       </section>
-   
+      
+   <script>
+        var url     = "https://script.google.com/macros/s/AKfycbxnyXizScM3kaCEaVSodUyfWuOtGhHZDatZnYs5gouj8co0wG8yoIEybbvdfhXyu0z4_g/exec";
+        var type;
+        var detail;
+        var price;
+        var modal = document.getElementById('modal');
+        modal.style.display = 'none';
+
+        var requrl = url+'?inout=4';
+        fetch(requrl , {
+            method: "GET",
+          }).then(response => response.text())
+          .then(text => {
+            var balance = document.getElementById('balance');
+            balance.innerText='今月の収支：'+text;
+            if(Number(text)<5000){
+              balance.classList.add('has-text-danger');
+            }else{
+              balance.classList.add('has-text-primary');
+            }
+          })
+
+        function show(){
+          type    = document.getElementById('type').value;
+          detail  = document.getElementById('detail').value;
+          price   = document.getElementById('price').value;
+          var typenumber = Number(type);
+          var typearray = ["error","その他","仕送り","アルバイト","特別報酬"];
+          var typestring = typearray[typenumber];
+          document.getElementById('typeconfirm').innerText  = typestring;
+          document.getElementById('detailconfirm').innerText= detail;
+          document.getElementById('priceconfirm').innerText = price;
+          modal.style.display = 'flex';
+        }
+
+        function hide(){
+          modal.style.display = 'none';
+        }
+
+        function formsubmit(){
+          type    = document.getElementById('type').value;
+          detail  = document.getElementById('detail').value;
+          price   = document.getElementById('price').value;
+          var param   = `?inout=1&type=${type}&detail='${detail}&value=${price}`;
+          var fullurl = url+param;
+          hide();
+          fetch(fullurl , {
+            method: "GET",
+          }).then(response => response.text())
+          .then(text => {
+            if(text=='success'){
+              window.location.reload();
+            }
+          })
+        }
+        function formclear(){
+          window.location.reload();
+        }
+   </script>
+   <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(function(registration) {
+        // 登録成功
+        console.log('Registering serviceworker was succeed. scope: ', registration.scope);
+      }).catch(function(err) {
+        // 登録失敗
+        console.log('Registering serviceworker was faild. ', err);
+      });
+    }
+    </script>
 </body>
 </html>
