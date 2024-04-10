@@ -103,10 +103,10 @@
 
 
             let tfoot_color;
-            if(array[1]<5000){
+            if(Number(array[0])<5000){
               tfoot_color = 'has-text-danger';
             }else{
-              tfoot_color = 'has-text-success';
+              tfoot_color = 'has-text-primary';
             }
             let last_price = `<th class="${tfoot_color}">${array[0]}</th><th></th>`;
             document.getElementById('tfoot').insertAdjacentHTML( 'beforeend', last_price);
