@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.json">
+    <link rel=”icon” href=“./icon/192.jpg”>
     <title>CashFlow Keeper</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
 </head>
@@ -46,14 +47,6 @@
                 <div class="control">
                     <div class="select is-info is-medium">
                       <select name="types" id="type">
-                        <option value="1">その他</option>
-                        <option value="2">食費</option>
-                        <option value="3">日用品費</option>
-                        <option value="4">被服費</option>
-                        <option value="5">美容費</option>
-                        <option value="6">医療費</option>
-                        <option value="7">交際費</option>
-                        <option value="8">娯楽費</option>
                       </select>
                     </div>
                   </div>
@@ -101,12 +94,13 @@
                     </div>
                   </section>
                   <footer class="modal-card-foot">
-                    <button class="button is-success" onclick="formsubmit()">OK</button>
+                    <button class="button is-success" id="submit_button"  onclick="formsubmit()">OK</button>
                     <button class="button" onclick="hide()">キャンセル</button>
                   </footer>
                 </div>
               </div>            
       </section>
+      <script src="./reference.js"></script>
       <script>
         var url     = "https://script.google.com/macros/s/AKfycbxnyXizScM3kaCEaVSodUyfWuOtGhHZDatZnYs5gouj8co0wG8yoIEybbvdfhXyu0z4_g/exec";
         var type;
@@ -114,6 +108,17 @@
         var price;
         var modal = document.getElementById('modal');
         modal.style.display = 'none';
+        var options = refarence.outside;
+        var count = options.length-1;
+        let i=0;
+        var lim =options.length-1;
+        const types = document.getElementById('type');
+        while(i<lim){
+          let now = options[i+1];
+          let add_code = `<option value="${i+1}">${now}</option>`;
+          types.insertAdjacentHTML( 'beforeend', add_code);
+          i++;
+        };
         
         var requrl = url+'?inout=4';
         fetch(requrl , {
@@ -134,7 +139,7 @@
           detail  = document.getElementById('detail').value;
           price   = document.getElementById('price').value;
           var typenumber = Number(type);
-          var typearray = ["error","その他","食費","日用品費","被服費","美容費","医療費","交際費","娯楽費"];
+          var typearray = refarence.outside;
           var typestring = typearray[typenumber];
           document.getElementById('typeconfirm').innerText  = typestring;
           document.getElementById('detailconfirm').innerText= detail;
@@ -147,12 +152,12 @@
         }
 
         function formsubmit(){
+          document.getElementById('submit_button').classList.add('is-loading');
           type    = document.getElementById('type').value;
           detail  = document.getElementById('detail').value;
           price   = document.getElementById('price').value;
           var param   = `?inout=2&type=${type}&detail='${detail}&value=${price}`;
           var fullurl = url+param;
-          hide();
           fetch(fullurl , {
             method: "GET",
           }).then(response => response.text())
