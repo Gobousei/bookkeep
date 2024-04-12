@@ -1,6 +1,6 @@
 # CashFlow Keeper
 
-<https://gobousei.github.com/bookkeep/outside>
+<https://gobousei.github.io/bookkeep/outside>
 
 名前はChatGPTに考えてもらいました。
 
