@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css"/>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CashFlow Keeper</title>
-    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
-    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css"/>    
-    <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="manifest" href="manifest.json">
     <!-- The core FireBase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-auth.js"></script>
@@ -16,6 +14,43 @@
     <!-- TODO: Add SDKs for FireBase products that you want to use
          https://firebase.google.com/docs/web/setup#available-libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.6.2/firebase-analytics.js"></script>
+ 
+    <script>
+        // Your web app's FireBase configuration
+        // For FireBase JS SDK v7.20.0 and later, measurementId is optional
+        /**---------------------------------------
+         * --------APIトークンなどの記述------------ */
+        var firebaseConfig = {
+
+            apiKey: "AIzaSyDF9xs3wltlnqi7UAyb9YCvhxlam1GNflA",
+  authDomain: "cashflow-keeper.firebaseapp.com",
+  databaseURL: "https://cashflow-keeper-default-rtdb.firebaseio.com",
+  projectId: "cashflow-keeper",
+  storageBucket: "cashflow-keeper.appspot.com",
+  messagingSenderId: "860972338101",
+  appId: "1:860972338101:web:a377c4932c0d4f133b67fc",
+  measurementId: "G-4V12T4YJ9G"
+
+        };
+        // Initialize FireBase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        let uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                  return true;
+                },
+            },
+            signInFlow: 'popup',
+              signInSuccessUrl: './outside.html',
+            signInOptions: [
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            ],
+        };
+ 
+        let ui = new firebaseui.auth.AuthUI(firebase.auth());
+        ui.start('#firebaseui-auth-container', uiConfig);
+    </script> 
     <style>
         #header{
             margin-top: -10px;
@@ -41,10 +76,9 @@
     </style>
 </head>
 <body>
-    <div id="header"><img src="./icon/kakeibo_icon.jpg" width="40px" height="40px"><p>KashFlow Keeper</p></div>
+    <div id="header"><img src="./icon/kakeibo_icon.jpg" width="40px" height="40px"><p>CashFlowKeeper</p></div>
     <p>ログイン、又は新規登録をしてください</p>
   <div id="firebaseui-auth-container"></div>
-  <link rel="manifest" href="manifest.json">
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js').then(function(registration) {
@@ -52,39 +86,6 @@
       });
     }
     </script>
-    <script>
-        /**---------------------------------------
-         * --------APIトークンなどの記述------------ */
-        var firebaseConfig = {
-
-            apiKey: "AIzaSyBMrTLSP_LFxIm5za4Qmn-_Bkl6OfqOC7I",
-            authDomain: "zousyo-943db.firebaseapp.com",
-            projectId: "zousyo-943db",
-            storageBucket: "zousyo-943db.appspot.com",
-            messagingSenderId: "368118463676",
-            appId: "1:368118463676:web:b4d55996cbcc6836f7a4b9",
-            measurementId: "G-0ZGSR8QGZC"
-
-        };
-            // Initialize FireBase
-        firebase.initializeApp(firebaseConfig);
-        firebase.analytics();
-        let uiConfig = {
-            callbacks: {
-                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                  return true;
-                },
-            },
-            signInFlow: 'popup',
-              signInSuccessUrl: './outside.html',
-            signInOptions: [
-                firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            ],
-        };
- 
-        let ui = new firebaseui.auth.AuthUI(firebase.auth());
-        ui.start('#firebaseui-auth-container', uiConfig);
-    </script>
-<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
 </body>
+<script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
 </html>

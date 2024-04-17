@@ -1,4 +1,4 @@
-const CACHE_VERSION = '1sa8r7m';//YYYYMMDDHOURを３２進数表記
+const CACHE_VERSION = '1sa8r7o';//YYYYMMDDHOURを３２進数表記
 const CACHE_NAME = `${registration.scope}!${CACHE_VERSION}`;
 
 // キャッシュするファイルをセットする
