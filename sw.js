@@ -1,4 +1,4 @@
-const CACHE_VERSION = '1sa8qo5';//YYYYMMDDHOURを３２進数表記
+const CACHE_VERSION = '1sa8r7l';//YYYYMMDDHOURを３２進数表記
 const CACHE_NAME = `${registration.scope}!${CACHE_VERSION}`;
 
 // キャッシュするファイルをセットする
@@ -6,7 +6,8 @@ const urlsToCache = [
   '.',
   'outside.html',
   'inside.html',
-  'payments.html'
+  'payments.html',
+  'index.html'
 ];
 
 self.addEventListener('install', (event) => {
