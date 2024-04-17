@@ -1,4 +1,4 @@
-      var url     = "https://script.google.com/macros/s/AKfycbxnyXizScM3kaCEaVSodUyfWuOtGhHZDatZnYs5gouj8co0wG8yoIEybbvdfhXyu0z4_g/exec";
+
       var refarence = {
           "inside": ["error","その他","仕送り","アルバイト","特別報酬",],
         
